@@ -6,8 +6,13 @@ import time
 cam = Device()
 
 class Camera(object):
+
+	thread = None
+	frame = None
+
 	def __init__(self):
-		self.frames = [open(f + '.jpg', 'rb').read() for f in ['image']]
+		self.frames = [open(f + '.jpg', 'rb').read() for f in['image']]
 
 	def get_frame(self):
+		self.frames = [open(f + '.jpg', 'rb').read() for f in['image']]
 		return self.frames[0]
