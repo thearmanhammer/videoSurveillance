@@ -5,3 +5,4 @@ cam = Device()
 
 while(True):
 	cam.saveSnapshot('image.jpg')
+	time.sleep(0.333)
