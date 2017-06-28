@@ -12,6 +12,7 @@ def index():
 
 def gen(camera):
 	while True:
+		time.sleep(0.001)
 		frame = camera.get_frame()
 		yield (b'--frame\r\n'
 			b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')

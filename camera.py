@@ -8,8 +8,9 @@ cam = Device()
 class Camera(object):
 
 	def __init__(self):
-		self.frames = [open(f + '.jpg', 'rb').read() for f in['image']]
-
+		cam.saveSnapshot('image.jpg')
+		self.frames = [open(f + '.jpg', 'rb').read() for f in ['image']]
 	def get_frame(self):
-		self.frames = [open(f + '.jpg', 'rb').read() for f in['image']]
+		cam.saveSnapshot('image.jpg')
+		self.frames = [open(f + '.jpg', 'rb').read() for f in ['image']]
 		return self.frames[0]
