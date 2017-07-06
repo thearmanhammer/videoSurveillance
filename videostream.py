@@ -3,7 +3,6 @@ from camera import Camera
 from PIL import Image
 import time
 
-
 app = Flask(__name__)
 
 @app.route('/')

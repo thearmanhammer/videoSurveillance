@@ -1,16 +1,20 @@
 from time import time
-from VideoCapture import Device
+#from VideoCapture import Device
 from PIL import Image
 import time
-
-cam = Device()
+import cv2
 
 class Camera(object):
 
 	def __init__(self):
-		cam.saveSnapshot('image.jpg')
+		cam = cv2.VideoCapture(0)
+		pic = cam.read()[1]
+		cv2.imwrite('image.jpg', pic)
 		self.frames = [open(f + '.jpg', 'rb').read() for f in ['image']]
+
 	def get_frame(self):
-		cam.saveSnapshot('image.jpg')
+		cam = cv2.VideoCapture(0)
+		pic = cam.read()[1]
+		cv2.imwrite('image.jpg', pic)
 		self.frames = [open(f + '.jpg', 'rb').read() for f in ['image']]
 		return self.frames[0]
