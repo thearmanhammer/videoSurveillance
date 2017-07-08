@@ -7,14 +7,13 @@ import cv2
 class Camera(object):
 
 	def __init__(self):
-		cam = cv2.VideoCapture(0)
-		pic = cam.read()[1]
+		self.cam = cv2.VideoCapture(0)
+		pic = self.cam.read()[1]
 		cv2.imwrite('image.jpg', pic)
 		self.frames = [open(f + '.jpg', 'rb').read() for f in ['image']]
 
 	def get_frame(self):
-		cam = cv2.VideoCapture(0)
-		pic = cam.read()[1]
+		pic = self.cam.read()[1]
 		cv2.imwrite('image.jpg', pic)
 		self.frames = [open(f + '.jpg', 'rb').read() for f in ['image']]
 		return self.frames[0]
