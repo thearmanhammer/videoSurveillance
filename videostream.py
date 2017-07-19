@@ -1,8 +1,7 @@
 from flask import Flask, render_template, Response
-from camera import Camera
+from wincamera import Camera
 from PIL import Image
 import time
-import requests
 
 app = Flask(__name__)
 
@@ -10,7 +9,12 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')
 
-
+def gen(camera):
+	while True:
+		time.sleep(0.001)
+		frame = camera.get_frame()
+		yield (b' --frame\r\n'
+			b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
 
 @app.route('/video_feed')
 def video_feed():
