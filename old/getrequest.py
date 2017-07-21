@@ -1,13 +1,15 @@
-from flask import Flask, render_template, Response
-from wincamera import Camera
+import requests
 from PIL import Image
+from flask import Flask, render_template, Response
 import time
+import io
+from reccamera import RecieveCamera
 
 app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+	return render_template('getindex.html')
 
 def gen(camera):
 	while True:
@@ -18,8 +20,8 @@ def gen(camera):
 
 @app.route('/video_feed')
 def video_feed():
-	return Response(gen(Camera()),
+	return Response(gen(RecieveCamera()),
 		mimetype='multipart/x-mixed-replace; boundary=frame')
 
 if __name__ == '__main__':
-	app.run(host='0.0.0.0', debug=True)
+	app.run(host='0.0.0.0', port=3000, debug=True)
