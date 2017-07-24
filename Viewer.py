@@ -11,21 +11,33 @@ app = Flask(__name__)
 def index():
 	return render_template('viewerhtml.html')
 
-#the route where the images will be recieved and displayed
+#the route where the images will be displayed
 @app.route('/stream')
 def stream():
-	#continually recieve and show image
+	return Response(imageStream(), \
+	mimetype='multipart/x-mixed-replace; boundary=frame')
+
+#function which continually gets the image
+def imageStream():
+		#continually recieve and show image
 	while True:
 		#the image is recieved from the server as a bytesio file
 		r = requests.get('http://localhost:5000/feed')
-		bimg = BytesIO(r.content)
+		# bimg = BytesIO(r.content)
+		# bimg.seek(0)
+
+		print(r.content)
 
 		#convert bytesio to image
-		img = Image.open(bimg)
+		# img = BytesIO()
+		# img = r.content
+		# print(type(r.content))
+		# print(dir(r.content))
+		# pic.save(img, "JPEG")
 
-		#display newfound image
+		#display image
 		yield (b' --frame\r\n'
-				b'Content-Type: image/jpeg\r\n\r\n' + img + b'\r\n')
+				b'Content-Type: image/jpeg\r\n\r\n' + r.content + b'\r\n')
 
 		#pause so computer doesnt fry
 		time.sleep(0.01)

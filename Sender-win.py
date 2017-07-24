@@ -11,7 +11,7 @@ cam = Device()
 def post(picture):
 
 	#post request to send image as a file
-	r = requests.post('http://localhost:5000/video_feed', data={'picture':picture})
+	r = requests.post('http://localhost:5000/feed', data={'picture':picture})
 
 	#let the user know that the image has been posted
 	print('posted')
@@ -21,6 +21,7 @@ while True:
 
 	#capture picture initially
 	pic = cam.getImage()
+	print('.   ')
 
 	#convert to a sendable file 'img'
 	img = BytesIO()
@@ -28,7 +29,8 @@ while True:
 	img.seek(0)
 
 	#send image to send function
-	post(img)
+	print(img)
+	post(pic)
 
 	#pause so computer is not fry
 	time.sleep(0.01)
