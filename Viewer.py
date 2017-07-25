@@ -1,5 +1,4 @@
 from flask import Flask, render_template, Response
-from io import BytesIO
 from PIL import Image
 import requests
 import time

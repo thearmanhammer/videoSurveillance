@@ -31,6 +31,25 @@ def feed():
 		print('Error: '+request.method+'has been called')
 		return ('Error: '+request.method+'has been called')
 
+#the route where the stream is located
+@app.route('/stream')
+def stream():
+	return Response(imageStream(), \
+	mimetype='multipart/x-mixed-replace; boundary=frame')
+
+#function which continually gets the image
+def imageStream():
+
+		#continually show image
+	while True:
+
+		#display image
+		yield (b' --frame\r\n'
+				b'Content-Type: image/jpeg\r\n\r\n' + pic + b'\r\n')
+
+		#pause so computer doesn't fry
+		time.sleep(0.01)
+
 #where the app will run and be hosted
 if __name__ == '__main__':
 	app.run(host='0.0.0.0', port=5000, debug=True)
