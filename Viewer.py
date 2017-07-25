@@ -20,24 +20,15 @@ def stream():
 #function which continually gets the image
 def imageStream():
 		#continually recieve and show image
+
 	while True:
-		#the image is recieved from the server as a bytesio file
+		#the image is recieved from the server
 		r = requests.get('http://localhost:5000/feed')
-		# bimg = BytesIO(r.content)
-		# bimg.seek(0)
-
-		print(r.content)
-
-		#convert bytesio to image
-		# img = BytesIO()
-		# img = r.content
-		# print(type(r.content))
-		# print(dir(r.content))
-		# pic.save(img, "JPEG")
+		frame = r.content
 
 		#display image
 		yield (b' --frame\r\n'
-				b'Content-Type: image/jpeg\r\n\r\n' + r.content + b'\r\n')
+				b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
 
 		#pause so computer doesnt fry
 		time.sleep(0.01)

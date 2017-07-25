@@ -1,4 +1,4 @@
-from VideoCapture import Device
+import cv2
 from PIL import Image
 import requests
 import time
@@ -19,9 +19,11 @@ def post(picture):
 while True:
 
 	#capture picture initially
-	pic = cam.saveSnapshot("image.jpeg")
+	self.cam = cv2.VideoCapture(0)
+	pic = self.cam.read()[1]
+	cv2.imwrite('image.jpeg', pic)
 
-	# #convert to a sendable file
+	#convert to a sendable file
 	finalpic = open("image.jpeg", 'rb')
 
 	#send image to send function

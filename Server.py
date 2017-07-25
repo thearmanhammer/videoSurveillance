@@ -1,12 +1,10 @@
 from flask import Flask, render_template, Response, request
-from io import BytesIO
 from PIL import Image
 
 app = Flask(__name__)
 
 #declare image variable so it is accessible everywhere
-img = Image
-#print(bpicIO)
+pic = None
 
 #create default blank webpage
 @app.route('/')
@@ -19,18 +17,13 @@ def feed():
 
 	#on POST, aka when something is sent, recieve and return image
 	if request.method == 'POST':
-		print("posted")
-		global img
-		img = request.form['picture']
-		print(img)
-		return img
+		global pic
+		pic = request.files['picture'].read()
+		return pic
 
 	#on GET, aka when something is retrieved, return current image
 	elif request.method == 'GET':
-		print(img)
-		bpicIO = BytesIO()
-		img.save(bpicIO, "JPEG")
-		return bpicIO.read()
+		return pic
 
 	#a method which shouldnt be called is being called on the server
 	else:
