@@ -1,4 +1,4 @@
-from VideoCapture import Device
+import cv2
 from PIL import Image
 import requests
 import time
@@ -10,7 +10,7 @@ cam = Device()
 def post(picture):
 
 	#post request to send image as a file
-	r = requests.post('https://obscure-dusk-57827.herokuapp.com/feed', files={'picture':picture})
+	r = requests.post('http://localhost:5000/feed', files={'picture':picture})
 
 	#let the user know that the image has been posted
 	print('posted')
@@ -19,9 +19,11 @@ def post(picture):
 while True:
 
 	#capture picture initially
-	pic = cam.saveSnapshot("image.jpeg")
+	self.cam = cv2.VideoCapture(0)
+	pic = self.cam.read()[1]
+	cv2.imwrite('image.jpeg', pic)
 
-	# #convert to a sendable file
+	#convert to a sendable file
 	finalpic = open("image.jpeg", 'rb')
 
 	#send image to send function
