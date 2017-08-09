@@ -10,6 +10,7 @@ cam = Device()
 def post(picture):
 
 	#post request to send image as a file
+	#r = requests.post('http://localhost:5000/feed', files={'picture':picture})
 	r = requests.post('https://obscure-dusk-57827.herokuapp.com/feed', files={'picture':picture})
 
 	#let the user know that the image has been posted
@@ -19,14 +20,20 @@ def post(picture):
 while True:
 
 	#capture picture initially
-	pic = cam.saveSnapshot("image.jpeg")
+	pic = cam.getImage()
 
-	# #convert to a sendable file
+	#convert to a sendable file
 	finalpic = open("image.jpeg", 'rb')
 
-	#send image to send function
-	post(finalpic)
+	#post the picture
+	r = requests.post('https://obscure-dusk-57827.herokuapp.com/feed', files={'picture':finalpic})
+	#r = requests.post('http://localhost:5000/feed', files={'picture':finalpic})
+
+	#close photo so it can be replaced
 	finalpic.close()
+
+	#notify the user
+	print('posted')
 
 	#pause so computer doesn't fry
 	time.sleep(0.01)
