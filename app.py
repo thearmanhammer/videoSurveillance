@@ -18,9 +18,10 @@ def feed():
 
 	#on POST, aka when something is sent, recieve and return image
 	if request.method == 'POST':
-		global pic
-		pic = request.files['picture'].read()
-		return pic
+                global clip
+                clip = request.files['clip'].read()
+                print(len(clip))
+                return clip
 
 	#on GET, aka when something is retrieved, return current image
 	elif request.method == 'GET':
@@ -38,6 +39,10 @@ def stream():
 	return Response(imageStream(), \
 	mimetype='multipart/x-mixed-replace; boundary=frame')
 
+@app.route("/video")
+def video():
+    return render_template('video.html')
+
 #function which continually gets the image
 def imageStream():
 
@@ -53,4 +58,5 @@ def imageStream():
 
 #where the app will run and be hosted
 if __name__ == '__main__':
-	app.run(host='0.0.0.0', port=5000, debug=True)
+	app.run(host='0.0.0.0', port=5000, debug=True, threaded=True)
+

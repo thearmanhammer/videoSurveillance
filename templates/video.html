@@ -1,0 +1,32 @@
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+    <title>Video</title>
+
+    <style type="text/css">
+        .videoCentered {
+            height: 100%;
+            margin-left: auto;
+            margin-right: auto;
+            display: block;
+        }
+    </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script> 
+</head>
+<body>
+    <video id="vid" class="videoCentered" controls></video>
+    <script>
+        if (Hls.isSupported()) {
+            var video = document.getElementById('vid');
+            var hls = new Hls();
+            hls.loadSource("static/hls/index.m3u8");
+            hls.attachMedia(video);
+            hls.on(Hls.Events.MANIFEST_PARSED, function() {
+                video.play();
+            });
+        }
+    </script>
+</body>
+</html>
