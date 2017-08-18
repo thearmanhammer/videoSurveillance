@@ -15,7 +15,8 @@ def index():
 #create route where image is recieved and held and can be accessed
 @app.route('/feed')
 def feed():
-    name = ('output'+str(i)+'.avi')
+    i2=i-1
+    name = ('static/output'+str(i2)+'.mp4')
     return send_from_directory('', name)
 
 @app.route('/vidcap')
@@ -35,10 +36,10 @@ def vidcap():
         frame_height = int(cap.get(4))
 
         #name the file
-        name = ('output'+str(i)+'.mp4')
+        name = ('static/output'+str(i)+'.mp4')
 
         # Define the codec and create VideoWriter object.The output is stored in 'outpy.avi' file.
-        out = cv2.VideoWriter(name,cv2.VideoWriter_fourcc('M','J','P','G'), 25, (frame_width,frame_height))
+        out = cv2.VideoWriter(name,cv2.VideoWriter_fourcc('X', '2', '6', '4'), 7, (frame_width,frame_height))
 
         t_end = time.time() + 10
         while time.time()<t_end:
