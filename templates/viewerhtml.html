@@ -4,6 +4,17 @@
   </head>
   <body>
     <h1> Surveillance Stream</h1>
-    <img src = "/stream">
+    <video id="myVideo" height="240" width="320" autoplay onended="run();" controls>   
+        <source id="ss" src="http://localhost:5000/feed" type='video/mp4'>
+    </video>
+        <script>
+        videoPlayer = document.getElementById("ss");
+        video=document.getElementById("myVideo");
+        video.onended = function(e) {
+        	videoPlayer.setAttribute("src", "http://localhost:5000/feed")
+          video.load();
+          video.play();
+        }
+    </script>
   </body>
 </html>
