@@ -1,62 +1,74 @@
-from flask import Flask, render_template, Response, request
-from PIL import Image
+import cv2
+import numpy as np
 import time
-
+import requests
+from flask import Flask, render_template, Response, request, send_from_directory
 app = Flask(__name__)
 
-#declare image variable so it is accessible everywhere
-pic = None
+i=0
 
 #create default blank webpage
 @app.route('/')
 def index():
-	return render_template('serverhtml.html')	
+    return render_template('vidindex.html') 
 
 #create route where image is recieved and held and can be accessed
-@app.route('/feed', methods=['GET', 'POST'])
+@app.route('/feed')
 def feed():
+    i2=i-2
+    name = ('static/output'+str(i2)+'.mp4')
+    return send_from_directory('', name)
 
-	#on POST, aka when something is sent, recieve and return image
-	if request.method == 'POST':
-                global clip
-                clip = request.files['clip'].read()
-                print(len(clip))
-                return clip
+@app.route('/vidcap')
+def vidcap():
+    while True:
+        global i
+        # Create a VideoCapture object
+        cap = cv2.VideoCapture(0)
+ 
+        # Check if camera opened successfully
+        if (cap.isOpened() == False): 
+            print("Unable to read camera feed")
+ 
+        # Default resolutions of the frame are obtained.The default resolutions are system dependent.
+        # We convert the resolutions from float to integer.
+        frame_width = int(cap.get(3))
+        frame_height = int(cap.get(4))
 
-	#on GET, aka when something is retrieved, return current image
-	elif request.method == 'GET':
-		return pic
+        #name the file
+        name = ('static/output'+str(i)+'.mp4')
 
-	#a method which shouldnt be called is being called on the server
-	else:
-		#let the user know
-		print('Error: '+request.method+'has been called')
-		return ('Error: '+request.method+'has been called')
+        # Define the codec and create VideoWriter object.The output is stored in 'outpy.avi' file.
+        out = cv2.VideoWriter(name,cv2.VideoWriter_fourcc('X', '2', '6', '4'), 7, (frame_width,frame_height))
 
-#the route where the stream is located
-@app.route('/stream')
-def stream():
-	return Response(imageStream(), \
-	mimetype='multipart/x-mixed-replace; boundary=frame')
+        f = 0
+        while (f<70):
+            ret, frame = cap.read()
+            if ret == True:
+                # Write the frame into the file 'output.avi'
+                out.write(frame)
 
-@app.route("/video")
-def video():
-    return render_template('video.html')
+                f = f+1
 
-#function which continually gets the image
-def imageStream():
+                # Display the resulting frame    
+                cv2.imshow('frame',frame)
 
-		#continually show image
-	while True:
+                # Press Q on keyboard to stop recording
+                if cv2.waitKey(1) & 0xFF == ord('q'):
+                    break
 
-		#display image
-		yield (b' --frame\r\n'
-				b'Content-Type: image/jpeg\r\n\r\n' + pic + b'\r\n')
+            # Break the loop
+            else:
+                break 
 
-		#pause so computer doesn't fry
-		time.sleep(0.01)
+        # When everything done, release the video capture and video write objects
+        cap.release()
+        out.release()
 
-#where the app will run and be hosted
-if __name__ == '__main__':
-	app.run(host='0.0.0.0', port=5000, debug=True, threaded=True)
+        # r = requests.post('http://localhost:5000/feed', files={'clip':open('output.mp4','rb')})
+    
+        # Closes all the frames
+        cv2.destroyAllWindows()
+        i = i+1
 
+app.run(host='0.0.0.0', port=5000, threaded=True)
