@@ -65,10 +65,11 @@ def vidcap():
         cap.release()
         out.release()
 
-        # r = requests.post('http://localhost:5000/feed', files={'clip':open('output.mp4','rb')})
+        r = requests.post('http://localhost:6000/feed', files={'clip':open(name,'rb')})
+        print('POSTED')
     
         # Closes all the frames
         cv2.destroyAllWindows()
         i = i+1
 
-app.run(host='0.0.0.0', port=5000, threaded=True)
+app.run(host='0.0.0.0', port=5000, threaded=True, debug=True)

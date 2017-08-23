@@ -5,13 +5,13 @@
   <body>
     <h1> Surveillance Stream</h1>
     <video id="myVideo" height="240" width="320" autoplay onended="run();" controls>   
-        <source id="ss" src="http://localhost:5000/feed" type='video/mp4'>
+        <source id="ss" src="/content" type='video/mp4'>
     </video>
         <script>
         videoPlayer = document.getElementById("ss");
         video=document.getElementById("myVideo");
         video.onended = function(e) {
-        	videoPlayer.setAttribute("src", "http://localhost:5000/feed")
+        	videoPlayer.setAttribute("src", "/content")
           video.load();
           video.play();
         }
