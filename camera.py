@@ -42,7 +42,7 @@ def vidcap():
         out = cv2.VideoWriter(name,cv2.VideoWriter_fourcc('X', '2', '6', '4'), 7, (frame_width,frame_height))
 
         f = 0
-        while (f<70):
+        while (f<100):
             ret, frame = cap.read()
             if ret == True:
                 # Write the frame into the file 'output.avi'
