@@ -1,6 +1,5 @@
 from flask import Flask, render_template, Response, request
 from PIL import Image
-import requests
 import time
 import datetime
 
