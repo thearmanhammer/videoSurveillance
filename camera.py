@@ -3,15 +3,15 @@ import numpy as np
 import time
 import requests
 
+global i
 i=0
 
 while True:
-    global i
     # Create a VideoCapture object
     cap = cv2.VideoCapture(0)
     # Check if camera opened successfully
     if (cap.isOpened() == False): 
-    print("Unable to read camera feed")
+    	print("Unable to read camera feed")
   
     # Default resolutions of the frame are obtained.The default resolutions are system dependent.
     # We convert the resolutions from float to integer.
