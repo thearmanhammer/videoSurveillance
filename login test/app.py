@@ -1,11 +1,8 @@
+from flask import Flask
 from flask import Flask, flash, redirect, render_template, request, session, abort
-from PIL import Image
-import time
-import datetime
-
+import os
+ 
 app = Flask(__name__)
-
-clip = None
  
 @app.route('/')
 def home():
