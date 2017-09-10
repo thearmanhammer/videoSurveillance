@@ -29,7 +29,7 @@ def feed():
         global clip
         clip = request.files['clip'].read()
         name = ('static/'+datetime.datetime.now().strftime("%I:%M%p on %B %d, %Y"))
-        clip.save(name)
+        # clip.save(name)
         return clip
     if request.method == 'GET':
         return clip
